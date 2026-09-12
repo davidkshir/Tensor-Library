@@ -21,7 +21,7 @@ namespace tensor {
 
 
     private:
-        std::vector<T> storage;
+        std::vector<T> storage_;
     };
 }
 #include "Storage.tpp"

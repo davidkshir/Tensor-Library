@@ -1,12 +1,9 @@
-#ifndef TENSORLIB_TYPES_HPP
-#define TENSORLIB_TYPES_HPP
+#pragma once
 
 #include <cstddef>
 #include <vector>
 
 namespace tensor {
-    using Strides = std::vector<size_t>;
-    using Shape = std::vector<size_t>;
+    using Strides = std::vector<std::size_t>;
+    using Shape = std::vector<std::size_t>;
 }
-
-#endif //TENSORLIB_TYPES_HPP

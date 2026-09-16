@@ -7,8 +7,6 @@ add_library(TensorLib
         src/TensorLayout.cpp
 )
 
-target_link_libraries(TensorTests PRIVATE TensorLib)
-
 target_include_directories(TensorLib PUBLIC
         include
         include/details

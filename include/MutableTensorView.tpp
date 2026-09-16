@@ -8,7 +8,7 @@
 namespace tensor {
 
     template<typename T>
-    TensorView<T>::TensorView(std::shared_ptr<Storage<T>> storage, Shape shape, Strides strides, std::size_t offset)
+    MutableTensorView<T>::MutableTensorView(std::shared_ptr<Storage<T>> storage, Shape shape, Strides strides, std::size_t offset)
         :layout_(std::move(shape), std::move(strides), offset),
         storage_(std::move(storage))
     {
@@ -16,35 +16,38 @@ namespace tensor {
     }
 
     template<typename T>
-    const Shape& TensorView<T>::getShape() const {
+    const Shape& MutableTensorView<T>::getShape() const {
         return layout_.getShape();
     }
 
     template<typename T>
-    const Strides& TensorView<T>::getStrides() const {
+    const Strides& MutableTensorView<T>::getStrides() const {
         return layout_.getStrides();
     }
 
     template<typename T>
-    std::size_t TensorView<T>::getDim() const{
+    std::size_t MutableTensorView<T>::getDim() const{
         return layout_.getDim();
     }
 
     template<typename T>
-    std::size_t TensorView<T>::numElements() const{
+    std::size_t MutableTensorView<T>::numElements() const{
         return layout_.numElements();
     }
 
     template<typename T>
-    bool TensorView<T>::isContiguous() const{
+    bool MutableTensorView<T>::isContiguous() const{
         return layout_.isContiguous();
     }
 
     template<typename T>
-    const T& TensorView<T>::at(const Indices& indices) const {
+    T& MutableTensorView<T>::at(const Indices& indices){
+        return detail::at(*storage_, layout_, indices);
+    }
+
+    template<typename T>
+    const T& MutableTensorView<T>::at(const Indices& indices) const {
         const Storage<T>& storage = *storage_;
         return detail::at(storage, layout_, indices);
     }
-
-
 }

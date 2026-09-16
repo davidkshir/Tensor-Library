@@ -2,7 +2,7 @@
 
 #include <utility>
 #include <stdexcept>
-#include "Indexing.hpp"
+#include "TensorHelpers.hpp"
 #include "Tensor.hpp"
 
 namespace tensor {

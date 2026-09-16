@@ -4,7 +4,7 @@
 #include <string>
 
 namespace tensor {
-    TensorLayout::TensorLayout(Shape shape)
+    TensorLayout::TensorLayout(Shape shape) // Automatically creates strides based on shape and no offset
         :shape_(std::move(shape)),
         strides_(shape_.size()),
         offset_(0)
@@ -28,8 +28,8 @@ namespace tensor {
 
     std::size_t TensorLayout::numElements() const{
         std::size_t size = 1;
-        for (const std::size_t elem : shape_) {
-            size *= elem;
+        for (const std::size_t dim : shape_) {
+            size *= dim;
         }
         return size;
     }

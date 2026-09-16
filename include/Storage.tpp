@@ -1,31 +1,23 @@
 #pragma once
 
 #include <stdexcept>
+#include <utility>
 namespace tensor {
 
    template<typename T>
    Storage<T>::Storage(std::size_t size)
             :storage_(size)
-   {
-   }
+   {}
 
    template<typename T>
    Storage<T>::Storage(const std::vector<T>& values)
             :storage_(values)
-   {
-      if (storage_.empty()) {
-         throw std::invalid_argument("Storage size must be greater than zero.");
-      }
-   }
+   {}
 
    template<typename T>
    Storage<T>::Storage(std::vector<T>&& values)
             :storage_(std::move(values))
-   {
-      if (storage_.empty()) {
-         throw std::invalid_argument("Storage size must be greater than zero.");
-      }
-   }
+   {}
 
    // Having a non-constant and constant indexing will be useful for views
    template<typename T>

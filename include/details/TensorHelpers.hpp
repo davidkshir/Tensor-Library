@@ -1,6 +1,6 @@
 #pragma once
-#include <memory>
 
+#include <memory>
 #include "Storage.hpp"
 #include "TensorLayout.hpp"
 

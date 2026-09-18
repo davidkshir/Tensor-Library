@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Types.hpp"
+#include <cstddef>
 
 namespace tensor {
 
@@ -15,6 +16,7 @@ namespace tensor {
         [[nodiscard]] std::size_t getDim() const;
         [[nodiscard]] std::size_t getStorageIndex(const Indices& indices) const;
         [[nodiscard]] bool isContiguous() const;
+        [[nodiscard]] TensorLayout slice(const Slices& slices) const;
 
     private:
         Shape shape_;

@@ -2,8 +2,10 @@
 
 #include <utility>
 #include <stdexcept>
-#include "TensorHelpers.hpp"
-#include "Tensor.hpp"
+#include "details/TensorHelpers.tpp"
+#include "TensorView.hpp"
+#include "MutableTensorView.hpp"
+
 
 namespace tensor {
     template<typename T>
@@ -67,6 +69,18 @@ namespace tensor {
     const T& Tensor<T>::at(const Indices& indices) const {
         const Storage<T>& storage = *storage_; // ensures storage reference is not mutable
         return detail::at(storage, layout_, indices);
+    }
+
+    template<typename T>
+    TensorView<T> Tensor<T>::slice(const Slices& slices) const {
+        TensorLayout newLayout = layout_.slice(slices);
+        return TensorView<T>(storage_, std::move(newLayout));
+    }
+
+    template<typename T>
+    MutableTensorView<T> Tensor<T>::mutableSlice(const Slices& slices) {
+        TensorLayout newLayout = layout_.slice(slices);
+        return MutableTensorView<T>(storage_, std::move(newLayout));
     }
 }
 

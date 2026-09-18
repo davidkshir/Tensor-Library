@@ -2,6 +2,8 @@
 
 #include "Storage.hpp"
 #include "TensorLayout.hpp"
+#include "TensorView.hpp"
+#include "MutableTensorView.hpp"
 #include "Types.hpp"
 #include <memory>
 
@@ -20,6 +22,8 @@ namespace tensor {
         [[nodiscard]] bool isContiguous() const;
         [[nodiscard]] T& at(const Indices& indices);
         [[nodiscard]] const T& at(const Indices& indices) const; // Allows for immutable tensors
+        [[nodiscard]] TensorView<T> slice(const Slices& slices) const;
+        [[nodiscard]] MutableTensorView<T> mutableSlice(const Slices& slices);
 
     private:
         TensorLayout layout_;

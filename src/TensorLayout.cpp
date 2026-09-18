@@ -1,7 +1,8 @@
 #include "TensorLayout.hpp"
+#include "Types.hpp"
 #include <utility>
 #include <stdexcept>
-#include <string>
+#include <unordered_set>
 
 namespace tensor {
     TensorLayout::TensorLayout(Shape shape) // Automatically creates strides based on shape and no offset
@@ -81,5 +82,39 @@ namespace tensor {
         }
 
         return true;
+    }
+    TensorLayout TensorLayout::slice(const Slices& slices) const {
+
+        Shape newShape = shape_;
+        Strides newStrides = strides_;
+        std::size_t newOffset = offset_;
+
+        std::unordered_set<std::size_t> usedAxes;
+        for (const Slice& slice : slices) {
+            if (slice.axis >= shape_.size()) {
+                throw std::out_of_range("Axis out of bounds.");
+            }
+            if (slice.start > shape_[slice.axis]) {
+                throw std::out_of_range("Start cannot exceed length of axis.");
+            }
+            if (slice.end > shape_[slice.axis]) {
+                throw std::out_of_range("End cannot exceed length of axis.");
+            }
+            if (slice.start > slice.end) {
+                throw std::invalid_argument("End cannot be before start.");
+            }
+            if (slice.step == 0) {
+                throw std::invalid_argument("Step cannot be 0.");
+            }
+            if (!usedAxes.insert(slice.axis).second) {
+                throw std::invalid_argument("Axis cannot be sliced multiple times.");
+            }
+            newShape[slice.axis] = ((slice.end - slice.start) + slice.step - 1) / slice.step;
+            newStrides[slice.axis] = strides_[slice.axis] * slice.step;
+            newOffset += slice.start * strides_[slice.axis];
+        }
+
+        TensorLayout layout(newShape, newStrides, newOffset);
+        return layout;
     }
 }

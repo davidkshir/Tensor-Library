@@ -3,13 +3,22 @@
 #include<memory>
 #include<utility>
 #include<stdexcept>
-#include "TensorHelpers.hpp"
+#include "details/TensorHelpers.hpp"
+#include "TensorView.hpp"
 
 namespace tensor {
 
     template<typename T>
     MutableTensorView<T>::MutableTensorView(std::shared_ptr<Storage<T>> storage, Shape shape, Strides strides, std::size_t offset)
         :layout_(std::move(shape), std::move(strides), offset),
+        storage_(std::move(storage))
+    {
+        detail::validateView(storage_, layout_);
+    }
+
+    template<typename T>
+    MutableTensorView<T>::MutableTensorView(std::shared_ptr<Storage<T>> storage, TensorLayout layout)
+        :layout_(std::move(layout)),
         storage_(std::move(storage))
     {
         detail::validateView(storage_, layout_);
@@ -50,4 +59,18 @@ namespace tensor {
         const Storage<T>& storage = *storage_;
         return detail::at(storage, layout_, indices);
     }
+
+    template<typename T>
+    TensorView<T> MutableTensorView<T>::slice(const Slices& slices) const {
+        TensorLayout newLayout = layout_.slice(slices);
+        return TensorView<T>(storage_, std::move(newLayout));
+    }
+
+    template<typename T>
+    MutableTensorView<T> MutableTensorView<T>::mutableSlice(const Slices& slices) {
+        TensorLayout newLayout = layout_.slice(slices);
+        return MutableTensorView<T>(storage_, std::move(newLayout));
+    }
+
+
 }

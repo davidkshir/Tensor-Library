@@ -6,13 +6,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_library(TensorLib
         src/TensorLayout.cpp
+        src/details/TensorHelpers.cpp
 )
 
 target_include_directories(TensorLib PUBLIC
         "${CMAKE_CURRENT_SOURCE_DIR}/include"
 )
-
+#
 #add_executable(TensorTest
+#        src/test.cpp
 #)
 #
 #target_link_libraries(TensorTest PRIVATE TensorLib

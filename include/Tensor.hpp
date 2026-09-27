@@ -24,6 +24,7 @@ namespace tensor {
         [[nodiscard]] const T& at(const Indices& indices) const; // Allows for immutable tensors
         [[nodiscard]] TensorView<T> slice(const Slices& slices) const;
         [[nodiscard]] MutableTensorView<T> mutableSlice(const Slices& slices);
+        [[nodiscard]] Tensor<T> clone() const;
 
     private:
         TensorLayout layout_;

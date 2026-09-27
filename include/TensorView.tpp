@@ -59,4 +59,10 @@ namespace tensor {
         return TensorView<T>(storage_, std::move(newLayout));
     }
 
+    template<typename T>
+    Tensor<T> TensorView<T>::clone() const {
+        auto clonedStorage = detail::cloneData(*storage_, layout_);
+        return Tensor<T>(layout_.getShape(), std::move(clonedStorage));
+    }
+
 }

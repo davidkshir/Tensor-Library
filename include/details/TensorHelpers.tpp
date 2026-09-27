@@ -35,4 +35,34 @@ namespace tensor::detail {
         }
     }
 
+    template<typename T>
+    std::vector<T> cloneData(const Storage<T>& source, const TensorLayout& layout) {
+        const std::size_t size = layout.numElements();
+
+        std::vector<T> clonedData(size);
+
+        if (size == 0) {
+            return clonedData;
+        }
+
+        Indices indices(layout.getShape().size(), 0); // Both logical & physical traversal expect indices have 0s for all dimensions
+
+        std::size_t sourceIndex = layout.getOffset();
+        std::size_t destinationIndex = 0;
+
+        while (true) {
+            clonedData[destinationIndex] = source[sourceIndex];
+
+            const std::size_t advancedAxis = advanceIndices(indices, layout.getShape());
+
+            if (advancedAxis == layout.getShape().size()) {
+                break; // Traversal over
+            }
+
+            layout.advanceStorage(sourceIndex, advancedAxis);
+            ++destinationIndex;
+        }
+        return clonedData;
+    }
+
 }

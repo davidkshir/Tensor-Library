@@ -1,5 +1,6 @@
 #include "TensorLayout.hpp"
 #include "Types.hpp"
+#include "details/TensorHelpers.hpp"
 #include <utility>
 #include <stdexcept>
 #include <unordered_set>
@@ -116,5 +117,18 @@ namespace tensor {
 
         TensorLayout layout(newShape, newStrides, newOffset);
         return layout;
+    }
+
+    void TensorLayout::advanceStorage(std::size_t& physicalIndex, std::size_t const advancedAxis) const {
+        if (advancedAxis >= shape_.size()) {
+            throw std::out_of_range("Advanced axis is out of range.");
+        }
+
+        physicalIndex += strides_[advancedAxis];
+
+        for (std::size_t axis = advancedAxis + 1; axis < shape_.size(); ++axis) {
+
+            physicalIndex -= (shape_[axis] - 1) * strides_[axis];
+        }
     }
 }

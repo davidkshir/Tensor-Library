@@ -8,6 +8,9 @@
 namespace tensor {
 
     template<typename T>
+    class Tensor;
+
+    template<typename T>
     class MutableTensorView {
     public:
         MutableTensorView(std::shared_ptr<Storage<T>> storage, Shape shape, Strides strides, std::size_t offset);
@@ -21,6 +24,7 @@ namespace tensor {
         [[nodiscard]] const T& at(const Indices& indices) const;
         [[nodiscard]] TensorView<T> slice(const Slices& slices) const;
         [[nodiscard]] MutableTensorView<T> mutableSlice(const Slices& slices);
+        [[nodiscard]] Tensor<T> clone() const;
 
 
     private:

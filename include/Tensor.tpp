@@ -6,7 +6,6 @@
 #include "TensorView.hpp"
 #include "MutableTensorView.hpp"
 
-
 namespace tensor {
     template<typename T>
     Tensor<T>::Tensor(Shape shape)
@@ -81,6 +80,12 @@ namespace tensor {
     MutableTensorView<T> Tensor<T>::mutableSlice(const Slices& slices) {
         TensorLayout newLayout = layout_.slice(slices);
         return MutableTensorView<T>(storage_, std::move(newLayout));
+    }
+
+    template<typename T>
+    Tensor<T> Tensor<T>::clone() const {
+        auto clonedStorage = detail::cloneData(*storage_, layout_);
+        return Tensor<T>(layout_.getShape(), std::move(clonedStorage));
     }
 }
 

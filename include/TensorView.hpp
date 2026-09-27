@@ -8,6 +8,9 @@
 namespace tensor {
 
     template<typename T>
+    class Tensor;
+
+    template<typename T>
     class TensorView {
     public:
         TensorView(std::shared_ptr<Storage<T>> storage, Shape shape, Strides strides, std::size_t offset);
@@ -19,6 +22,7 @@ namespace tensor {
         [[nodiscard]] bool isContiguous() const;
         [[nodiscard]] const T& at(const Indices& indices) const;
         [[nodiscard]] TensorView<T> slice(const Slices& slices) const;
+        [[nodiscard]] Tensor<T> clone() const;
     private:
         TensorLayout layout_;
         std::shared_ptr<Storage<T>> storage_;

@@ -4,6 +4,7 @@
 #include<utility>
 #include "details/TensorHelpers.hpp"
 
+
 namespace tensor {
 
     template<typename T>
@@ -63,6 +64,11 @@ namespace tensor {
     Tensor<T> TensorView<T>::clone() const {
         auto clonedStorage = detail::cloneData(*storage_, layout_);
         return Tensor<T>(layout_.getShape(), std::move(clonedStorage));
+    }
+
+    template<typename T>
+    TensorView<T> TensorView<T>::reshape(const Shape& newShape) const{
+        return TensorView<T>(storage_, layout_.reshape(newShape));
     }
 
 }

@@ -23,6 +23,7 @@ namespace tensor {
         [[nodiscard]] const T& at(const Indices& indices) const;
         [[nodiscard]] TensorView<T> slice(const Slices& slices) const;
         [[nodiscard]] Tensor<T> clone() const;
+        [[nodiscard]] TensorView<T> reshape(const Shape& newShape) const;
     private:
         TensorLayout layout_;
         std::shared_ptr<Storage<T>> storage_;

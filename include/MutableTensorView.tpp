@@ -78,4 +78,14 @@ namespace tensor {
         return Tensor<T>(layout_.getShape(), std::move(clonedStorage));
     }
 
+    template<typename T>
+    MutableTensorView<T> MutableTensorView<T>::reshape(const Shape& newShape) {
+        return MutableTensorView<T>(storage_, layout_.reshape(newShape));
+    }
+
+    template<typename T>
+    TensorView<T> MutableTensorView<T>::reshape(const Shape& newShape) const{
+        return TensorView<T>(storage_, layout_.reshape(newShape));
+    }
+
 }

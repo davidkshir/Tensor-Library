@@ -131,4 +131,30 @@ namespace tensor {
             physicalIndex -= (shape_[axis] - 1) * strides_[axis];
         }
     }
+
+    TensorLayout TensorLayout::reshape(const Shape& newShape) const {
+        if (!isContiguous()) {
+            throw std::invalid_argument("Original layout must be contiguous.");
+        }
+
+        std::size_t newShapeSize = 1;
+        for (const std::size_t dim : newShape) {
+            newShapeSize *= dim;
+        }
+
+        if (newShapeSize != numElements()) {
+            throw std::invalid_argument("New shape must have the same amount of elements as original layout.");
+        }
+
+        Strides newStrides(newShape.size());
+
+        std::size_t stride = 1;
+
+        for (std::size_t i = newShape.size(); i-- > 0;) {
+            newStrides[i] = stride;
+            stride *= newShape[i];
+        }
+
+        return TensorLayout(newShape, std::move(newStrides), offset_);
+    }
 }

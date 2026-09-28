@@ -25,6 +25,9 @@ namespace tensor {
         [[nodiscard]] TensorView<T> slice(const Slices& slices) const;
         [[nodiscard]] MutableTensorView<T> mutableSlice(const Slices& slices);
         [[nodiscard]] Tensor<T> clone() const;
+        [[nodiscard]] MutableTensorView<T> reshape(const Shape& newShape);
+        [[nodiscard]] TensorView<T> reshape(const Shape& newShape) const;
+
 
 
     private:

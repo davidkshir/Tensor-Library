@@ -18,6 +18,7 @@ namespace tensor {
         [[nodiscard]] bool isContiguous() const;
         [[nodiscard]] TensorLayout slice(const Slices& slices) const;
         void advanceStorage(std::size_t& physicalIndex, std::size_t advancedAxis) const;
+        [[nodiscard]] TensorLayout reshape(const Shape& newShape) const;
 
     private:
         Shape shape_;

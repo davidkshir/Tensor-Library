@@ -7,6 +7,7 @@ namespace tensor {
     using Strides = std::vector<std::size_t>;
     using Shape = std::vector<std::size_t>;
     using Indices = std::vector<std::size_t>;
+    using Axes = std::vector<std::size_t>;
 
     struct Slice {
         std::size_t axis{};

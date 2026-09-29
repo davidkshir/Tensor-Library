@@ -19,6 +19,8 @@ namespace tensor {
         [[nodiscard]] TensorLayout slice(const Slices& slices) const;
         void advanceStorage(std::size_t& physicalIndex, std::size_t advancedAxis) const;
         [[nodiscard]] TensorLayout reshape(const Shape& newShape) const;
+        [[nodiscard]] TensorLayout permute(const Axes& newAxes) const;
+        [[nodiscard]] TensorLayout transpose(std::size_t axis1, std::size_t axis2) const;
 
     private:
         Shape shape_;

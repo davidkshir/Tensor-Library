@@ -98,5 +98,23 @@ namespace tensor {
         return TensorView<T>(storage_, layout_.reshape(newShape));
     }
 
+    template<typename T>
+    MutableTensorView<T> Tensor<T>::permute(const Axes& newAxes){
+        return MutableTensorView<T>(storage_, layout_.permute(newAxes));
+    }
+
+    template<typename T>
+    TensorView<T> Tensor<T>::permute(const Axes& newAxes) const{
+        return TensorView<T>(storage_, layout_.permute(newAxes));
+    }
+
+    template<typename T>
+    MutableTensorView<T> Tensor<T>::transpose(const std::size_t axis1, const std::size_t axis2){
+        return MutableTensorView<T>(storage_, layout_.transpose(axis1, axis2));
+    }
+    template<typename T>
+    TensorView<T> Tensor<T>::transpose(const std::size_t axis1, const std::size_t axis2) const {
+        return TensorView<T>(storage_, layout_.transpose(axis1, axis2));
+    }
 }
 

@@ -27,6 +27,10 @@ namespace tensor {
         [[nodiscard]] Tensor<T> clone() const;
         [[nodiscard]] MutableTensorView<T> reshape(const Shape& newShape);
         [[nodiscard]] TensorView<T> reshape(const Shape& newShape) const;
+        [[nodiscard]] MutableTensorView<T> permute(const Axes& newAxes);
+        [[nodiscard]] TensorView<T> permute(const Axes& newAxes) const;
+        [[nodiscard]] MutableTensorView<T> transpose(std::size_t axis1, std::size_t axis2);
+        [[nodiscard]] TensorView<T> transpose(std::size_t axis1, std::size_t axis2) const;
 
 
 

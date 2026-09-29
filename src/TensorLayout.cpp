@@ -1,4 +1,6 @@
 #include "TensorLayout.hpp"
+
+#include <numeric>
 #include "Types.hpp"
 #include "details/TensorHelpers.hpp"
 #include <utility>
@@ -156,5 +158,47 @@ namespace tensor {
         }
 
         return TensorLayout(newShape, std::move(newStrides), offset_);
+    }
+
+    TensorLayout TensorLayout::permute(const Axes &newAxes) const {
+        if (newAxes.size() != shape_.size()) {
+            throw std::invalid_argument("Must have same number of Axes as original.");
+        }
+
+        if (const std::unordered_set<std::size_t> uniqueAxes(newAxes.begin(), newAxes.end());
+            uniqueAxes.size() != newAxes.size()) {
+
+            throw std::invalid_argument("Cannot have duplicate axes");
+        }
+
+        for (std::size_t const newAxis : newAxes) {
+            if (newAxis >= shape_.size()) {
+                throw std::out_of_range("Axis out of range.");
+            }
+        }
+
+        Shape newShape(shape_.size());
+        for (std::size_t i = 0; i < shape_.size(); i++) {
+            newShape[i] = shape_[newAxes[i]];
+        }
+
+        Strides newStrides(shape_.size());
+        for (std::size_t i = 0; i < strides_.size(); i++) {
+            newStrides[i] = strides_[newAxes[i]];
+        }
+
+        return TensorLayout(std::move(newShape), std::move(newStrides), offset_);
+    }
+
+    TensorLayout TensorLayout::transpose(const std::size_t axis1, const std::size_t axis2) const {
+        if (axis1 >= shape_.size() || axis2 >= shape_.size()) {
+            throw std::out_of_range("Axis out of range.");
+        }
+
+        Axes newAxes(shape_.size());
+        std::iota(newAxes.begin(), newAxes.end(), 0);
+        std::swap(newAxes[axis1], newAxes[axis2]);
+
+        return permute(newAxes);
     }
 }

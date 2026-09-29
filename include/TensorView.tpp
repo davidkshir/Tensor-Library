@@ -80,4 +80,13 @@ namespace tensor {
         return TensorView<T>(storage_, layout_.transpose(axis1, axis2));
     }
 
+    template<typename T>
+    const Storage<T>& TensorView<T>::getStorage() const {
+        return *storage_;
+    }
+
+    template<typename T>
+    const TensorLayout& TensorView<T>::getLayout() const {
+        return layout_;
+    }
 }

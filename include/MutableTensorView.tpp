@@ -102,9 +102,20 @@ namespace tensor {
     MutableTensorView<T> MutableTensorView<T>::transpose(const std::size_t axis1, const std::size_t axis2){
         return MutableTensorView<T>(storage_, layout_.transpose(axis1, axis2));
     }
+
     template<typename T>
     TensorView<T> MutableTensorView<T>::transpose(const std::size_t axis1, const std::size_t axis2) const {
         return TensorView<T>(storage_, layout_.transpose(axis1, axis2));
+    }
+
+    template<typename T>
+    const Storage<T>& MutableTensorView<T>::getStorage() const {
+        return *storage_;
+    }
+
+    template<typename T>
+    const TensorLayout& MutableTensorView<T>::getLayout() const {
+        return layout_;
     }
 
 }

@@ -12,6 +12,7 @@ namespace tensor {
     template<typename T>
     class Tensor {
     public:
+        using valueType = T;
         explicit Tensor(Shape shape);
         Tensor(Shape shape, const std::vector<T>& values); // copies data
         Tensor(Shape shape, std::vector<T>&& values); // moves data
@@ -24,13 +25,15 @@ namespace tensor {
         [[nodiscard]] const T& at(const Indices& indices) const; // Allows for immutable tensors
         [[nodiscard]] TensorView<T> slice(const Slices& slices) const;
         [[nodiscard]] MutableTensorView<T> mutableSlice(const Slices& slices);
-        [[nodiscard]] Tensor<T> clone() const;
+        [[nodiscard]] Tensor clone() const;
         [[nodiscard]] MutableTensorView<T> reshape(const Shape& newShape);
         [[nodiscard]] TensorView<T> reshape(const Shape& newShape) const;
         [[nodiscard]] MutableTensorView<T> permute(const Axes& newAxes);
         [[nodiscard]] TensorView<T> permute(const Axes& newAxes) const;
         [[nodiscard]] MutableTensorView<T> transpose(std::size_t axis1, std::size_t axis2);
         [[nodiscard]] TensorView<T> transpose(std::size_t axis1, std::size_t axis2) const;
+        [[nodiscard]] const Storage<T>& getStorage() const;
+        [[nodiscard]] const TensorLayout& getLayout() const;
 
     private:
         TensorLayout layout_;

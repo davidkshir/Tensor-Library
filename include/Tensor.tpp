@@ -116,5 +116,15 @@ namespace tensor {
     TensorView<T> Tensor<T>::transpose(const std::size_t axis1, const std::size_t axis2) const {
         return TensorView<T>(storage_, layout_.transpose(axis1, axis2));
     }
+
+    template<typename T>
+    const Storage<T>& Tensor<T>::getStorage() const {
+        return *storage_;
+    }
+
+    template<typename T>
+    const TensorLayout& Tensor<T>::getLayout() const {
+        return layout_;
+    }
 }
 

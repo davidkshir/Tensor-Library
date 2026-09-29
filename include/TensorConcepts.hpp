@@ -4,6 +4,8 @@
 
 namespace tensor {
     class TensorLayout;
+    template<typename T>
+    class Storage;
 
     template<typename T>
     concept ReadableTensor = requires(const T& tensor){

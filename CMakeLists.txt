@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_library(TensorLib
         src/TensorLayout.cpp
         src/details/TensorHelpers.cpp
+        src/details/MathHelpers.cpp
 )
 
 target_include_directories(TensorLib PUBLIC

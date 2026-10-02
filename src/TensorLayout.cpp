@@ -201,4 +201,33 @@ namespace tensor {
 
         return permute(newAxes);
     }
+
+    TensorLayout TensorLayout::broadcastTo(const Shape &targetShape) const {
+        if (targetShape.size() < shape_.size()) {
+            throw std::invalid_argument("Cannot broadcast to a lower-dimensional shape.");
+        }
+
+        Strides newStrides(targetShape.size());
+        const std::size_t axisOffset = targetShape.size() - shape_.size();
+
+        for (std::size_t i = 0; i < targetShape.size(); ++i) {
+            if (i < axisOffset) {
+                newStrides[i] = 0;
+            }
+            else {
+                const size_t currentAxis = i - axisOffset;
+                if (shape_[currentAxis] == targetShape[i]) {
+                    newStrides[i] = strides_[currentAxis];
+                }
+                else if (shape_[currentAxis] == 1) {
+                    newStrides[i] = 0;
+                }
+                else {
+                    throw std::invalid_argument("Shapes are incompatible for broadcasting.");
+                }
+            }
+        }
+
+        return TensorLayout(targetShape, newStrides, offset_);
+    }
 }

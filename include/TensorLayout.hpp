@@ -21,6 +21,7 @@ namespace tensor {
         [[nodiscard]] TensorLayout reshape(const Shape& newShape) const;
         [[nodiscard]] TensorLayout permute(const Axes& newAxes) const;
         [[nodiscard]] TensorLayout transpose(std::size_t axis1, std::size_t axis2) const;
+        [[nodiscard]] TensorLayout broadcastTo(const Shape& targetShape) const;
 
     private:
         Shape shape_;

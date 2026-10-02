@@ -5,7 +5,7 @@
 #include <type_traits>
 #include <limits>
 
-namespace tensor::details {
+namespace tensor::detail {
 
     // Checks to see if container is big enough to store a value
     template<typename Container, typename Value>

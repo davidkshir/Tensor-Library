@@ -13,10 +13,3 @@ add_library(TensorLib
 target_include_directories(TensorLib PUBLIC
         "${CMAKE_CURRENT_SOURCE_DIR}/include"
 )
-#
-#add_executable(TensorTest
-#        src/test.cpp
-#)
-#
-#target_link_libraries(TensorTest PRIVATE TensorLib
-#)

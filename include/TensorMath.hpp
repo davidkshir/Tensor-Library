@@ -5,32 +5,32 @@
 #include"details/TypePromotion.hpp"
 
 namespace tensor {
-    template<typename T, NumericScalar Scalar>
-    [[nodiscard]] Tensor<detail::PromoteType<T, Scalar>> add(const Tensor<T>& tensor, Scalar scalar);
+    template<ReadableTensor T, NumericScalar Scalar>
+    [[nodiscard]] Tensor<detail::PromoteType<typename T::valueType, Scalar>> add(const T& tensor, Scalar scalar);
 
-    template<typename T, typename U>
-    [[nodiscard]] Tensor<detail::PromoteType<T, U>> add(const Tensor<T>& tensor1, const Tensor<U>&  tensor2);
+    template<ReadableTensor T, ReadableTensor U>
+    [[nodiscard]] Tensor<detail::PromoteType<typename T::valueType, typename U::valueType>> add(const T& tensor1, const U&  tensor2);
 
-    template<typename T, NumericScalar Scalar>
-    [[nodiscard]] Tensor<detail::PromoteType<T, Scalar>> subtract(const Tensor<T>& tensor, Scalar scalar);
+    template<ReadableTensor T, NumericScalar Scalar>
+    [[nodiscard]] Tensor<detail::PromoteType<typename T::valueType, Scalar>> subtract(const T& tensor, Scalar scalar);
 
-    template<typename T, typename U>
-    [[nodiscard]] Tensor<detail::PromoteType<T, U>> subtract(const Tensor<T>& tensor1, const Tensor<U>&  tensor2);
+    template<ReadableTensor T, ReadableTensor U>
+    [[nodiscard]] Tensor<detail::PromoteType<typename T::valueType, typename U::valueType>> subtract(const T& tensor1, const U&  tensor2);
 
-    template<typename T, NumericScalar Scalar>
-    [[nodiscard]] Tensor<detail::PromoteType<T, Scalar>> multiply(const Tensor<T>& tensor, Scalar scalar);
+    template<ReadableTensor T, NumericScalar Scalar>
+    [[nodiscard]] Tensor<detail::PromoteType<typename T::valueType, Scalar>> multiply(const T& tensor, Scalar scalar);
 
-    template<typename T, typename U>
-    [[nodiscard]] Tensor<detail::PromoteType<T, U>> multiply(const Tensor<T>& tensor1, const Tensor<U>&  tensor2);
+    template<ReadableTensor T, ReadableTensor U>
+    [[nodiscard]] Tensor<detail::PromoteType<typename T::valueType, typename U::valueType>> multiply(const T& tensor1, const U&  tensor2);
 
-    template<typename T, NumericScalar Scalar>
-    [[nodiscard]] Tensor<detail::PromoteType<T, Scalar>> divide(const Tensor<T>& tensor, Scalar scalar);
+    template<ReadableTensor T, NumericScalar Scalar>
+    [[nodiscard]] Tensor<detail::PromoteType<typename T::valueType, Scalar>> divide(const T& tensor, Scalar scalar);
 
-    template<typename T, typename U>
-    [[nodiscard]] Tensor<detail::PromoteType<T, U>> divide(const Tensor<T>& tensor1, const Tensor<U>&  tensor2);
+    template<ReadableTensor T, ReadableTensor U>
+    [[nodiscard]] Tensor<detail::PromoteType<typename T::valueType, typename U::valueType>> divide(const T& tensor1, const U&  tensor2);
 
-    template<typename T, typename U>
-    [[nodiscard]] Tensor<detail::PromoteType<T, U>> matMul(const Tensor<T>& tensor1, const Tensor<U>&  tensor2);
+    template<ReadableTensor T, ReadableTensor U>
+    [[nodiscard]] Tensor<detail::PromoteType<typename T::valueType, typename U::valueType>> matMul(const T& tensor1, const U&  tensor2);
 
 
 

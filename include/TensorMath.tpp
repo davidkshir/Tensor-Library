@@ -9,9 +9,9 @@
 #include "details/MathHelpers.hpp"
 
 namespace tensor {
-    template<typename T, NumericScalar Scalar>
-    Tensor<detail::PromoteType<T, Scalar>> add(const Tensor<T>& tensor, Scalar scalar) {
-        using ResultType = detail::PromoteType<T, Scalar>;
+    template<ReadableTensor T, NumericScalar Scalar>
+    Tensor<detail::PromoteType<typename T::valueType, Scalar>> add(const T& tensor, Scalar scalar) {
+        using ResultType = detail::PromoteType<typename T::valueType, Scalar>;
 
         Tensor<ResultType> result(tensor.getShape());
 
@@ -24,9 +24,9 @@ namespace tensor {
         return result;
     }
 
-    template<typename T, typename U>
-    Tensor<detail::PromoteType<T, U>> add(const Tensor<T>& tensor1, const Tensor<U>&  tensor2) {
-        using ResultType = detail::PromoteType<T, U>;
+    template<ReadableTensor T, ReadableTensor U>
+    Tensor<detail::PromoteType<typename T::valueType, typename U::valueType>> add(const T& tensor1, const U&  tensor2) {
+        using ResultType = detail::PromoteType<typename T::valueType, typename U::valueType>;
         auto [layout1, layout2] = detail::broadcast(tensor1.getLayout(), tensor2.getLayout()); // Unpacks pair
 
         Tensor<ResultType> result(layout1.getShape());
@@ -44,9 +44,9 @@ namespace tensor {
     }
 
 
-    template<typename T, NumericScalar Scalar>
-    Tensor<detail::PromoteType<T, Scalar>> subtract(const Tensor<T>& tensor, Scalar scalar) {
-        using ResultType = detail::PromoteType<T, Scalar>;
+    template<ReadableTensor T, NumericScalar Scalar>
+    Tensor<detail::PromoteType<typename T::valueType, Scalar>> subtract(const T& tensor, Scalar scalar) {
+        using ResultType = detail::PromoteType<typename T::valueType, Scalar>;
 
         Tensor<ResultType> result(tensor.getShape());
 
@@ -59,9 +59,9 @@ namespace tensor {
         return result;
     }
 
-    template<typename T, typename U>
-    Tensor<detail::PromoteType<T, U>> subtract(const Tensor<T>& tensor1, const Tensor<U>&  tensor2) {
-        using ResultType = detail::PromoteType<T, U>;
+    template<ReadableTensor T, ReadableTensor U>
+    Tensor<detail::PromoteType<typename T::valueType, typename U::valueType>> subtract(const T& tensor1, const U&  tensor2) {
+        using ResultType = detail::PromoteType<typename T::valueType, typename U::valueType>;
         auto [layout1, layout2] = detail::broadcast(tensor1.getLayout(), tensor2.getLayout()); // Unpacks pair
 
         Tensor<ResultType> result(layout1.getShape());
@@ -78,9 +78,9 @@ namespace tensor {
         return result;
     }
 
-    template<typename T, NumericScalar Scalar>
-    Tensor<detail::PromoteType<T, Scalar>> multiply(const Tensor<T>& tensor, Scalar scalar) {
-        using ResultType = detail::PromoteType<T, Scalar>;
+    template<ReadableTensor T, NumericScalar Scalar>
+    Tensor<detail::PromoteType<typename T::valueType, Scalar>> multiply(const T& tensor, Scalar scalar) {
+        using ResultType = detail::PromoteType<typename T::valueType, Scalar>;
 
         Tensor<ResultType> result(tensor.getShape());
 
@@ -93,9 +93,9 @@ namespace tensor {
         return result;
     }
 
-    template<typename T, typename U>
-    Tensor<detail::PromoteType<T, U>> multiply(const Tensor<T>& tensor1, const Tensor<U>&  tensor2) {
-        using ResultType = detail::PromoteType<T, U>;
+    template<ReadableTensor T, ReadableTensor U>
+    Tensor<detail::PromoteType<typename T::valueType, typename U::valueType>> multiply(const T& tensor1, const U&  tensor2) {
+        using ResultType = detail::PromoteType<typename T::valueType, typename U::valueType>;
         auto [layout1, layout2] = detail::broadcast(tensor1.getLayout(), tensor2.getLayout()); // Unpacks pair
 
         Tensor<ResultType> result(layout1.getShape());
@@ -112,13 +112,13 @@ namespace tensor {
         return result;
     }
 
-    template<typename T, NumericScalar Scalar>
-    Tensor<detail::PromoteType<T, Scalar>> divide(const Tensor<T>& tensor, Scalar scalar) {
+    template<ReadableTensor T, NumericScalar Scalar>
+    Tensor<detail::PromoteType<typename T::valueType, Scalar>> divide(const T& tensor, Scalar scalar) {
         if (scalar == 0) {
             throw std::domain_error("Division by zero");
         }
 
-        using ResultType = detail::PromoteType<T, Scalar>;
+        using ResultType = detail::PromoteType<typename T::valueType, Scalar>;
 
         Tensor<ResultType> result(tensor.getShape());
 
@@ -141,9 +141,9 @@ namespace tensor {
         return result;
     }
 
-    template<typename T, typename U>
-    Tensor<detail::PromoteType<T, U>> divide(const Tensor<T>& tensor1, const Tensor<U>&  tensor2) {
-        using ResultType = detail::PromoteType<T, U>;
+    template<ReadableTensor T, ReadableTensor U>
+    Tensor<detail::PromoteType<typename T::valueType, typename U::valueType>> divide(const T& tensor1, const U&  tensor2) {
+        using ResultType = detail::PromoteType<typename T::valueType, typename U::valueType>;
         auto [layout1, layout2] = detail::broadcast(tensor1.getLayout(), tensor2.getLayout()); // Unpacks pair
 
         Tensor<ResultType> result(layout1.getShape());
@@ -172,9 +172,8 @@ namespace tensor {
         return result;
     }
 
-    template<typename T, typename U>
-    Tensor<detail::PromoteType<T, U>> matMul(const Tensor<T>& tensor1, const Tensor<U>&  tensor2) {
-
+    template<ReadableTensor T, ReadableTensor U>
+    Tensor<detail::PromoteType<typename T::valueType, typename U::valueType>> matMul(const T& tensor1, const U&  tensor2) {
 
         if (tensor1.getShape().size() < 2 || tensor2.getShape().size() < 2) {
             throw std::invalid_argument("Both tensors must have 2 or more dimensions.");
@@ -184,7 +183,7 @@ namespace tensor {
             throw std::invalid_argument("Incompatible matrix dimensions.");
         }
 
-        using ResultType = detail::PromoteType<T, U>;
+        using ResultType = detail::PromoteType<typename T::valueType, typename U::valueType>;
 
         // Gets the batch dimensions by excluding the last 2 dimensions
         const Shape batchShape1(tensor1.getShape().begin(), tensor1.getShape().end() - 2);

@@ -29,6 +29,10 @@ namespace tensor {
     template<typename T, typename U>
     [[nodiscard]] Tensor<detail::PromoteType<T, U>> divide(const Tensor<T>& tensor1, const Tensor<U>&  tensor2);
 
+    template<typename T, typename U>
+    [[nodiscard]] Tensor<detail::PromoteType<T, U>> matMul(const Tensor<T>& tensor1, const Tensor<U>&  tensor2);
+
+
 
 }
 #include "TensorMath.tpp"

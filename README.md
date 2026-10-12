@@ -163,5 +163,3 @@ cmake --build build
 ```
 
 The library's public headers are located in `include/`, with supporting implementation files in `src/`.
-
-to extend the library into an automatic differentiation framework capable of supporting neural network development while maintaining control over tensor storage, memory layouts, and mathematical operations.

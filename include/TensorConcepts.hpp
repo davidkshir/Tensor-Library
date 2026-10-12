@@ -8,6 +8,9 @@ namespace tensor {
     class Storage;
 
     template<typename T>
+    concept NumericScalar = std::is_arithmetic_v<T> && !std::same_as<T, bool>;
+
+    template<typename T>
     concept ReadableTensor = requires(const T& tensor){
         typename T::valueType;
         {tensor.getLayout()} -> std::same_as<const TensorLayout&>;
